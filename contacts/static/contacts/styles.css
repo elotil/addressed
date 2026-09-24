@@ -1,3 +1,18 @@
+:root {
+    --border-color: #ccc;
+    --muted-text: #777;
+
+    --primary-color: #007bff;
+    --primary-light: #e6f2ff;
+    --primary-hover: #0066cc;
+
+    --danger-color: red;
+    --danger-hover: #cc0000;
+
+    --neutral-color: #ccc;
+    --neutral-hover: #aaa;
+}
+
 body {
     font-family: sans-serif;
     margin: 0;
@@ -15,14 +30,18 @@ main {
     align-items: flex-start;
 }
 
+#contacts,
+#contact-details {
+    border: 1px solid var(--border-color);
+    padding: 16px;
+}
+
 #contacts {
     width: 40%;
 }
 
 #contact-details {
     width: 60%;
-    border: 1px solid #ccc;
-    padding: 16px;
     display: flex;
     flex-direction: column;
 }
@@ -33,19 +52,18 @@ main {
     flex: 1;
 }
 
-#contacts, #contact-details {
-    border: 1px solid #ccc;
-    padding: 16px;
-}
-
 .contact {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
+.contact[hidden] {
+    display: none;
+}
+
 .contact + .contact {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 
 .contact button {
@@ -59,13 +77,35 @@ main {
 }
 
 .contact button.selected-contact {
-    background: #e6f2ff;
+    background: var(--primary-light);
 }
 
 #contacts-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+#contact-controls {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    margin-top: 12px;
+}
+
+#search-contacts {
+    flex-basis: 100%;
+    min-width: 0;
+}
+
+.sort-option {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 4px;
 }
 
 #add-contact-button {
@@ -73,6 +113,8 @@ main {
     height: 32px;
     border-radius: 50%;
     border: none;
+    background: var(--primary-color);
+    color: white;
     font-size: 20px;
     display: flex;
     align-items: center;
@@ -82,9 +124,15 @@ main {
 
 .email {
     display: flex;
+    font-size: 20px;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    margin-bottom: 8px;
+}
+
+.email input {
+    font-size: inherit;
 }
 
 .email-error {
@@ -96,27 +144,70 @@ main {
 #last-name-error,
 #email-error,
 .email-error {
-    color: red;
+    color: var(--danger-color);
     font-size: 14px;
+}
+
+.button {
+    padding: 10px 18px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+}
+
+.hidden-button {
+    visibility: hidden;
+}
+
+.danger-button {
+    background: var(--danger-color);
+    color: white;
+}
+
+.danger-button:hover {
+    background: var(--danger-hover);
+}
+
+.save-button {
+    background: var(--primary-color);
+    color: white;
+}
+
+.save-button:hover {
+    background: var(--primary-hover);
+}
+
+.cancel-button {
+    background: var(--neutral-color);
+    color: black;
+}
+
+.cancel-button:hover {
+    background: var(--neutral-hover);
 }
 
 .delete-email-button {
     order: 2;
     width: 24px;
     height: 24px;
-    border: none;
     border-radius: 50%;
-    background: red;
-    color: white;
     font-size: 18px;
     line-height: 1;
     padding: 0;
+    visibility: hidden;
+    border: none;
+    background: var(--danger-color);
+    color: white;
+}
+
+.email:hover .delete-email-button {
+    visibility: visible;
 }
 
 #add-email-button {
     border: none;
     background: none;
-    color: blue;
+    color: var(--primary-color);
     font: inherit;
     display: flex;
     align-items: center;
@@ -128,20 +219,12 @@ main {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: blue;
+    background: var(--primary-color);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
-}
-
-.delete-email-button {
-    visibility: hidden;
-}
-
-.email:hover .delete-email-button {
-    visibility: visible;
 }
 
 #name-fields {
@@ -153,9 +236,10 @@ main {
     flex: 1;
 }
 
-.name-field label {
+.name-field label,
+#contact-form > label {
     display: block;
-    color: #777;
+    color: var(--muted-text);
     font-size: 14px;
 }
 
@@ -175,20 +259,17 @@ main {
 }
 
 #contact-form > label {
-    display: block;
-    color: #777;
-    font-size: 14px;
     margin-top: 24px;
 }
 
 .saved-email {
-    border: none;
+    border: 1px solid transparent;
     background: none;
     outline: none;
 }
 
 .saved-email:focus {
-    border: 1px solid #ccc;
+    border-color: var(--border-color);
     background: white;
     outline: auto;
 }
@@ -200,48 +281,14 @@ main {
     padding-top: 32px;
 }
 
-#form-actions button {
-    padding: 10px 18px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-}
-
 #save-actions {
     display: flex;
     gap: 8px;
 }
 
-#delete-contact-button {
-    background: red;
-    color: white;
-}
-
-#save-actions button[type="submit"] {
-    background: #007bff;
-    color: white;
-}
-
-#cancel-button {
-    background: #ccc;
-    color: black;
-}
-
-#delete-contact-button:hover {
-    background: #cc0000;
-}
-
-#save-actions button[type="submit"]:hover {
-    background: #0066cc;
-}
-
-#cancel-button:hover {
-    background: #aaa;
-}
-
 #delete-dialog,
 #discard-dialog {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 24px;
 }
@@ -249,34 +296,4 @@ main {
 #delete-dialog::backdrop,
 #discard-dialog::backdrop {
     background: rgba(0, 0, 0, 0.4);
-}
-
-#delete-dialog button,
-#discard-dialog button {
-    padding: 10px 18px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-}
-
-#confirm-delete-button,
-#confirm-discard-button {
-    background: red;
-    color: white;
-}
-
-#cancel-delete-button,
-#cancel-discard-button {
-    background: #ccc;
-    color: black;
-}
-
-#confirm-delete-button:hover,
-#confirm-discard-button:hover {
-    background: #cc0000;
-}
-
-#cancel-delete-button:hover,
-#cancel-discard-button:hover {
-    background: #aaa;
 }

@@ -16,12 +16,30 @@
             <div id="contacts">
                 <div id="contacts-header">
                     <h2>Contacts</h2>
-                    <button id="add-contact-button">+</button>
+                    <button id="add-contact-button" aria-label="Add contact">+</button>
+
+                    <div id="contact-controls">
+                        <input id="search-contacts" type="search" placeholder="Search contacts">
+
+                        <label class="sort-option">Sort by
+                            <select id="sort-field">
+                                <option value="firstName">First Name</option>
+                                <option value="lastName">Last Name</option>
+                            </select>
+                        </label>
+
+                        <label class="sort-option">Order
+                            <select id="sort-order">
+                                <option value="asc">Ascending</option>
+                                <option value="desc">Descending</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
             </div>
+
             <div id="contact-details">
                 <form id="contact-form" hidden>
-
                     <div id="name-fields">
                         <div class="name-field">
                             <label for="first-name">First Name</label>
@@ -40,19 +58,25 @@
                     <div id="email-fields">
                         <div class="email">
                             <span>example@example.com</span>
-                            <button type="button" class="delete-email-button">-</button>
+                            <button type="button" class="button delete-email-button">-</button>
                         </div>
                     </div>
-                    <button type="button" id="add-email-button"><span>+</span> add email</button>
+
+                    <button type="button" id="add-email-button">
+                        <span>+</span> add email
+                    </button>
                     <div id="email-error" hidden>At least one email address is required.</div>
-                    <div id="email-server-error" hidden>Please enter a valid email address.</div>
 
                     <div id="form-actions">
-                        <button type="button" id="delete-contact-button">Delete</button>
+                        <button type="button" id="delete-contact-button" class="button danger-button">
+                            Delete
+                        </button>
 
                         <div id="save-actions">
-                            <button type="submit">Save</button>
-                            <button type="button" id="cancel-button">Cancel</button>
+                            <button type="submit" id="save-button" class="button save-button">Save</button>
+                            <button type="button" id="cancel-button" class="button cancel-button">
+                                Cancel
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -62,19 +86,27 @@
         <dialog id="delete-dialog">
             <p>Are you sure you want to delete this contact?</p>
 
-            <button type="button" id="confirm-delete-button">Delete</button>
-            <button type="button" id="cancel-delete-button">Cancel</button>
+            <button type="button" id="confirm-delete-button" class="button danger-button">
+                Delete
+            </button>
+            <button type="button" id="cancel-delete-button" class="button cancel-button">
+                Cancel
+            </button>
         </dialog>
 
         <dialog id="discard-dialog">
             <p>You have unsaved changes. Discard them?</p>
 
-            <button type="button" id="confirm-discard-button">Discard</button>
-            <button type="button" id="cancel-discard-button">Keep Editing</button>
+            <button type="button" id="confirm-discard-button" class="button danger-button">
+                Discard
+            </button>
+            <button type="button" id="cancel-discard-button" class="button cancel-button">
+                Keep Editing
+            </button>
         </dialog>
-
     </main>
 
+    <script src="{% static 'contacts/contacts.js' %}"></script>
     <script src="{% static 'contacts/app.js' %}"></script>
 </body>
 </html>
