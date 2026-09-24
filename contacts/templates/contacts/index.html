@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addressed</title>
+</head>
+<body>
+    <h1>Addressed</h1>
+
+    <div id="contacts"></div>
+    <div id="contact-details"></div>
+
+    <button id="add-contact-button">Add Contact</button>
+    <form id="contact-form" hidden>
+        <label for="first-name">First name</label>
+        <input id="first-name" name="first_name" type="text" required>
+
+        <label for="last-name">Last name</label>
+        <input id="last-name" name="last_name" type="text" required>
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email">
+
+        <button type="submit">Save</button>
+        <button type="button" id="cancel-button">Cancel</button>
+    </form>
+
+    <script src="{% static 'contacts/app.js' %}"></script>
+</body>
+</html>
