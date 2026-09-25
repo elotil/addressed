@@ -5,6 +5,8 @@ const searchContacts = document.getElementById("search-contacts");
 const sortField = document.getElementById("sort-field");
 const sortOrder = document.getElementById("sort-order");
 const addContactButton = document.getElementById("add-contact-button");
+const contactsEmptyMessage = document.getElementById("contacts-empty-message");
+const contactsCount = document.getElementById("contacts-count");
 
 const contactForm = document.getElementById("contact-form");
 const saveButton = document.getElementById("save-button");
@@ -16,6 +18,7 @@ const deleteContactButton = document.getElementById("delete-contact-button");
 const firstNameError = document.getElementById("first-name-error");
 const lastNameError = document.getElementById("last-name-error");
 const emailError = document.getElementById("email-error");
+const emailDuplicate = document.getElementById("email-duplicate");
 
 const deleteDialog = document.getElementById("delete-dialog");
 const confirmDeleteButton = document.getElementById("confirm-delete-button");
@@ -86,6 +89,8 @@ function handleContactEditResponse(response, data) {
 
     displayContact(data);
     showContactForm(data);
+    sortContactsList();
+    updateCountMessage();
 }
 
 /**
@@ -263,6 +268,7 @@ function clearErrors() {
     firstNameError.hidden = true;
     lastNameError.hidden = true;
     emailError.hidden = true;
+    emailDuplicate.hidden = true;
 
     emailFields.querySelectorAll(".email-error").forEach(errorElement => {
         errorElement.hidden = true;
@@ -290,6 +296,13 @@ function validateContact(contact) {
         emailError.hidden = false;
         isValid = false;
     }
+    
+    const emailSet = new Set(contact.emails.map(email => email.address.trim().toLowerCase()));
+    if (emailSet.size !== contact.emails.length) {
+        emailDuplicate.hidden = false;
+        isValid = false;
+    }
+
     return isValid;
 }
 
@@ -310,6 +323,7 @@ function deleteContact() {
         currentContact = null;
         hideContactForm();
         deleteDialog.close();
+        updateCountMessage();
     });
 }
 
@@ -346,11 +360,17 @@ function setUnsavedChanges(value) {
 function searchContactsList() {
     const searchText = searchContacts.value.trim().toLowerCase();
 
+    let shown = 0;
     contactContainer.querySelectorAll(".contact").forEach(contact => {
         contact.hidden = !contact.dataset.searchText.includes(searchText);
+        if (!contact.hidden) shown++;
     });
+    updateCountMessage();
 }
 
+/**
+ * Sorts the contact list based on the selected field and order.
+ */
 function sortContactsList() {
     const contacts = [...contactContainer.querySelectorAll(".contact")];
     const field = sortField.value;
@@ -364,4 +384,24 @@ function sortContactsList() {
     contacts.forEach(contact => {
         contactContainer.appendChild(contact);
     });
+}
+
+/**
+ * Shows the appropriate contacts count message.
+ */
+function updateCountMessage() {
+    const contacts = [...contactContainer.querySelectorAll(".contact")];
+    const shown = contacts ? contacts.filter(contact => {
+        return !contact.hidden;
+    }).length : 0;
+    const total = contacts ? contacts.length : 0;
+
+    if (shown < total) {
+        contactsCount.textContent = `Showing ${shown} contact${shown !== 1 ? 's' : ''} of ${total}.`;
+    } else {
+        contactsCount.textContent = `Showing ${total} contact${total !== 1 ? 's' : ''}.`;
+    }
+
+    contactsEmptyMessage.hidden = !(contacts.length === 0);
+    contactsCount.hidden = contacts.length === 0;
 }

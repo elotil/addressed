@@ -73,4 +73,5 @@ fetch("/api/contacts/").then(response => response.json()).then(contacts => {
         displayContact(contact);
     });
     sortContactsList();
+    updateCountMessage();
 });

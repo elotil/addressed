@@ -46,6 +46,14 @@ main {
     flex-direction: column;
 }
 
+#contacts-empty-message,
+#contacts-count {
+    font-size: 14px;
+    color: var(--muted-text);
+    text-align: center;
+    margin-top: 32px;
+}
+
 #contact-form:not([hidden]) {
     display: flex;
     flex-direction: column;
@@ -92,6 +100,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: flex-end;
     gap: 8px;
     font-size: 12px;
     margin-top: 12px;
@@ -100,6 +109,11 @@ main {
 #search-contacts {
     flex-basis: 100%;
     min-width: 0;
+}
+
+#sort-field,
+#sort-order {
+    font-size: 12px;
 }
 
 .sort-option {
@@ -143,7 +157,8 @@ main {
 #first-name-error,
 #last-name-error,
 #email-error,
-.email-error {
+.email-error,
+#email-duplicate {
     color: var(--danger-color);
     font-size: 14px;
 }
@@ -296,4 +311,31 @@ main {
 #delete-dialog::backdrop,
 #discard-dialog::backdrop {
     background: rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+  #content {
+    flex-direction: column;
+  }
+
+  #contacts,
+  #contact-details {
+    width: 100%;
+  }
+
+  #contacts-header {
+    grid-template-columns: 1fr;
+  }
+
+  #contact-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #search-contacts,
+  #sort-field,
+  #sort-order {
+    width: 100%;
+  }
 }
